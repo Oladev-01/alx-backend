@@ -26,7 +26,7 @@ class Server:
         """Returns the appropriate page of the dataset."""
         if not isinstance(page, int) or not isinstance(page_size, int):
             raise ValueError("Page and page_size must be integers")
-        
+
         if page <= 0 or page_size <= 0:
             raise ValueError("Page and page_size must be positive integers")
 
@@ -34,8 +34,7 @@ class Server:
         dataset = self.dataset()
 
         if start_index >= len(dataset):
-            return []  # Return an empty list if the start index is out of range
-
+            return []
         return dataset[start_index:end_index]
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
@@ -56,8 +55,9 @@ class Server:
             "total_pages": total_pages
         }
 
+
 def index_range(page: int, page_size: int) -> tuple:
-    """Returns a tuple of the start and end index corresponding to the range of indexes."""
+    """Returns a tuple of the start and end"""
     start = (page - 1) * page_size
     end = start + page_size
     return start, end
