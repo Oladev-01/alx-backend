@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """start to end"""
-from typing import Tuple, List, Dict, Any
+from typing import Tuple, List, Dict, Union
 import csv
 import math
 
@@ -42,7 +42,7 @@ class Server:
         return dataset[start:end]
 
     def get_hyper(self, page: int = 1, page_size:
-                  int = 10) -> Dict[str, Any]:
+                  int = 10) -> Dict[str, Union[int, List]]:
         """return a dict"""
         data = self.get_page(page, page_size)
         total_data = len(self.dataset())
@@ -50,7 +50,7 @@ class Server:
         next_page = page + 1 if data else None
         previous_page = page - 1 if page > 1 else None
         return {
-            'page_size': page_size,
+            'page_size': len(data),
             'page': page,
             'data': data,
             'next_page': next_page,
