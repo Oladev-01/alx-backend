@@ -37,7 +37,7 @@ def get_user() -> Optional[Dict]:
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     """setting to global var"""
     g.user = get_user()
 
