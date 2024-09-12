@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """flask instance"""
+import pytz
 from typing import Optional, Dict
 from flask_babel import Babel
-from flask import Flask, render_template, request, g
+from pytz.exceptions import UnknownTimeZoneError
+from flask import Flask, render_template, request, g, timezoneselector
 
 
 app = Flask(__name__)
@@ -25,7 +27,6 @@ users = {
     4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
 }
 
-
 def get_user() -> Optional[Dict]:
     """getting user id"""
     try:
@@ -41,6 +42,15 @@ def before_request() -> None:
     """setting to global var"""
     g.user = get_user()
 
+@babel.timezoneselector
+def get_timezone() -> str:
+    """get user timezone"""
+    timezone = request.args.get('timezone')
+    if timezone:
+        try:
+            return pytz.timezone(timezone).zone
+        except UnknownTimeZoneError:
+            pass
 
 @babel.localeselector
 def get_locale() -> str:
